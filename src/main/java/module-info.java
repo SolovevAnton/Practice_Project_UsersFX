@@ -1,6 +1,8 @@
 module com.solovev.usersfx {
     requires javafx.controls;
     requires javafx.fxml;
+    requires codemodel;
+    requires jsonschema2pojo.core;
 
 
     opens com.solovev.usersfx to javafx.fxml;
