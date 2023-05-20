@@ -5,6 +5,6 @@
 
 <AnchorPane prefHeight="249.0" prefWidth="468.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.solovev.usersfx.controllers.MainController">
    <children>
-      <ComboBox fx:id="ComboBoxOne" layoutX="13.0" layoutY="26.0" prefHeight="25.0" prefWidth="443.0" />
+      <ComboBox fx:id="ComboBoxOne" layoutX="13.0" layoutY="26.0" prefHeight="25.0" prefWidth="443.0" promptText="Imported Users" />
    </children>
 </AnchorPane>
