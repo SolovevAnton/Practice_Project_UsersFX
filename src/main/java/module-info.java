@@ -3,6 +3,7 @@ module com.solovev.usersfx {
     requires javafx.fxml;
     requires codemodel;
     requires jsonschema2pojo.core;
+    requires com.fasterxml.jackson.annotation;
 
 
     opens com.solovev.usersfx to javafx.fxml;

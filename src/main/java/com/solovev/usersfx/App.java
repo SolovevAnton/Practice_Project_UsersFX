@@ -1,14 +1,11 @@
 package com.solovev.usersfx;
 
-import com.solovev.usersfx.util.Json2PojoGenerator;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.IOException;
 
 public class App extends Application {
     @Override
@@ -20,22 +17,7 @@ public class App extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args)  {
 
-        URL url = new URL("https://jsonplaceholder.typicode.com/users");
-
-        try(
-                BufferedInputStream br = new BufferedInputStream(url.openStream());
-                FileOutputStream fot = new FileOutputStream("Users.json");
-        ){
-            fot.write(br.readAllBytes());
-            String fileNameUsers = "Users.json";
-            //generate classes of user:
-            Json2PojoGenerator generatorUsers = new Json2PojoGenerator(fileNameUsers,"src/main/java/");
-            String classNameUsers = "Users";
-            String packageNameUsers = "com.solovev.model";
-            generatorUsers.generate(classNameUsers, packageNameUsers);
-
-        }
     }
 }
