@@ -9,8 +9,8 @@
       <ListView fx:id="addedUsersListView" layoutX="15.0" layoutY="322.0" prefHeight="210.0" prefWidth="270.0" />
       <TextArea fx:id="textAreaSelectedUserInfo" editable="false" layoutX="12.0" layoutY="46.0" prefHeight="219.0" prefWidth="270.0" promptText="Selected User Info" />
       <Label layoutX="14.0" layoutY="300.0" text="Users saved Locally" />
-      <Button fx:id="buttonSaveUser" layoutX="12.0" layoutY="265.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="270.0" style="-fx-background-color: #2ecc71; -fx-border-color: #1d8348;" text="Save selected user locally" textAlignment="CENTER" wrapText="true" />
-      <Button fx:id="buttonDeleteUseer" layoutX="160.0" layoutY="541.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="125.0" style="-fx-background-color: #ec7063; -fx-border-color: #e74c3c;" text="Delete selected user from local List" wrapText="true" />
-      <Button fx:id="buttonShowInfo" layoutX="15.0" layoutY="541.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="125.0" style="-fx-background-color: #6495ED; -fx-border-color: #0017fe;" text="Show User Info" wrapText="true" />
+      <Button layoutX="12.0" layoutY="265.0" mnemonicParsing="false" onAction="#buttonSave" prefHeight="25.0" prefWidth="270.0" style="-fx-background-color: #2ecc71; -fx-border-color: #1d8348;" text="Save selected user locally" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="160.0" layoutY="541.0" mnemonicParsing="false" onAction="#buttonDelete" prefHeight="45.0" prefWidth="125.0" style="-fx-background-color: #ec7063; -fx-border-color: #e74c3c;" text="Delete selected user from local List" wrapText="true" />
+      <Button layoutX="15.0" layoutY="541.0" mnemonicParsing="false" onAction="#buttonShowInfo" prefHeight="45.0" prefWidth="125.0" style="-fx-background-color: #6495ED; -fx-border-color: #0017fe;" text="Show User Info" wrapText="true" />
    </children>
 </AnchorPane>
