@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.input.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="600" prefWidth="300.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.solovev.usersfx.controllers.MainController">
@@ -12,5 +13,29 @@
       <Button layoutX="12.0" layoutY="265.0" mnemonicParsing="false" onAction="#buttonSave" prefHeight="25.0" prefWidth="270.0" style="-fx-background-color: #2ecc71; -fx-border-color: #1d8348;" text="Save selected user locally" textAlignment="CENTER" wrapText="true" />
       <Button layoutX="160.0" layoutY="541.0" mnemonicParsing="false" onAction="#buttonDelete" prefHeight="45.0" prefWidth="125.0" style="-fx-background-color: #ec7063; -fx-border-color: #e74c3c;" text="Delete selected user from local List" wrapText="true" />
       <Button layoutX="15.0" layoutY="541.0" mnemonicParsing="false" onAction="#buttonShowInfo" prefHeight="45.0" prefWidth="125.0" style="-fx-background-color: #6495ED; -fx-border-color: #0017fe;" text="Show User Info" wrapText="true" />
+      <MenuBar layoutY="2.0" prefHeight="26.0" prefWidth="800.0">
+         <menus>
+            <Menu mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#menuButtonOpen" text="Open">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#menuButtonSave" text="Save as...">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#menuButtonAbout" text="About" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <ChoiceBox layoutX="216.0" layoutY="-41.0" prefWidth="150.0" />
    </children>
 </AnchorPane>
