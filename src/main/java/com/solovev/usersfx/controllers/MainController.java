@@ -20,6 +20,7 @@ public class MainController {
     public TextArea textAreaSelectedUserInfo;
     @FXML
     public ListView<User> addedUsersListView = new ListView<>();
+    public TextArea textAreaLogs;
     private UserRepository savedUsers = new UserRepository();
     private File chosenSaveFile;
 
@@ -130,41 +131,12 @@ public class MainController {
         }
     }
 
-    //TODO refactor
-    public void menuButtonOpen(ActionEvent actionEvent) throws IOException {
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extensionFilterTxt = new FileChooser.ExtensionFilter("TXT","*.txt");
-        FileChooser.ExtensionFilter extensionFilterJson = new FileChooser.ExtensionFilter("*.json","*.json");
-        FileChooser.ExtensionFilter extensionFilterAll = new FileChooser.ExtensionFilter("all files","*.*");
-        fileChooser.getExtensionFilters().add(extensionFilterTxt);
-        fileChooser.getExtensionFilters().add(extensionFilterJson);
-        fileChooser.getExtensionFilters().add(extensionFilterAll);
-        File fileOpened = fileChooser.showOpenDialog(null);
-        if(fileOpened !=null){
-            comboBoxUsers.getItems().addAll(new UserRepository(fileOpened).getUsers()); //set or add?
-        }
-
+    public void menuButtonOpen(ActionEvent actionEvent) {
     }
 
-    public void menuButtonSave(ActionEvent actionEvent) throws IOException {
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extensionFilterTxt = new FileChooser.ExtensionFilter("TXT","*.txt");
-        FileChooser.ExtensionFilter extensionFilterJson = new FileChooser.ExtensionFilter("*.json","*.json");
-        FileChooser.ExtensionFilter extensionFilterAll = new FileChooser.ExtensionFilter("all files","*.*");
-        fileChooser.getExtensionFilters().add(extensionFilterTxt);
-        fileChooser.getExtensionFilters().add(extensionFilterJson);
-        fileChooser.getExtensionFilters().add(extensionFilterAll);
-
-        if(chosenSaveFile != null) {
-            chosenSaveFile = fileChooser.showSaveDialog(null);
-            comboBoxUsers.getItems().forEach(savedUsers::addUser);
-            if (chosenSaveFile != null) {
-                savedUsers.save(chosenSaveFile);
-
-            }
-        }
+    public void menuButtonSave(ActionEvent actionEvent) {
     }
 
-    public void menuButtonAbout(ActionEvent actionEvent) {
+    public void menuButtonSaveAs(ActionEvent actionEvent) {
     }
 }
