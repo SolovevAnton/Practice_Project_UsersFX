@@ -2,6 +2,7 @@ package com.solovev.usersfx.controllers;
 
 import com.solovev.usersfx.model.User;
 import com.solovev.usersfx.repository.UserRepository;
+import com.solovev.usersfx.util.UserDecoratorClass;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +13,8 @@ import javafx.util.Callback;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
+import java.util.function.Function;
 
 public class MainController {
     @FXML
@@ -22,71 +25,56 @@ public class MainController {
     public ListView<User> addedUsersListView = new ListView<>();
     public TextArea textAreaLogs;
     private UserRepository savedUsers = new UserRepository();
+    private FileChooser mainChooser = new FileChooser();
     private File chosenSaveFile;
 
     private final Callback<ListView<User>, ListCell<User>> userToOnlyNamesAppearance = lv -> new ListCell<>() {
         @Override
         protected void updateItem(User user, boolean empty) {
             super.updateItem(user, empty);
-            setText(empty ? "" : shortUserInfo(user));
+            setText(empty ? "" : UserDecoratorClass.shortUserInfo(user));
         }
     };
 
-    //TODO ? should combobox and other settings be done here?
     @FXML
     public void initialize() throws IOException {
         URL urlToGetUsers = new URL("https://jsonplaceholder.typicode.com/users");
         UserRepository userRep = new UserRepository(urlToGetUsers);
-        comboBoxUsers.getItems().setAll(userRep.getUsers());
+        //combobox initialization
+        comboboxInitialization(userRep);
+
+        //fileChooser initialization
+        fileChooserInitialization();
+
+        //text fields initialization
+        addedUsersListView.setCellFactory(userToOnlyNamesAppearance);
+        textAreaLogs.setText(comboBoxUsers.getItems().size() + " Users loaded from: " + urlToGetUsers + "\n");
+    }
+
+    /**
+     * method to initialize combobox
+     *
+     * @param repo repository to get users from
+     */
+    private void comboboxInitialization(UserRepository repo) {
+        comboBoxUsers.getItems().setAll(repo.getUsers());
         comboBoxUsers.setCellFactory(userToOnlyNamesAppearance);
         comboBoxUsers.setButtonCell(userToOnlyNamesAppearance.call(null));
-        ChangeListener<User> userChangeListener = (list, oldValue, newValue) -> textAreaSelectedUserInfo.setText(newValue != null ? longUserInfo(newValue) : "");
+        ChangeListener<User> userChangeListener = (list, oldValue, newValue) -> textAreaSelectedUserInfo.setText(newValue != null ? UserDecoratorClass.longUserInfo(newValue) : "");
         comboBoxUsers.valueProperty().addListener(userChangeListener);
-
-        addedUsersListView.setCellFactory(userToOnlyNamesAppearance);
-    }
-
-
-    //TODO ? should these methods be here, or in user class?
-
-    /**
-     * Shows id and name of the user
-     *
-     * @param user to get info about
-     * @return user info string representation
-     */
-    private String shortUserInfo(User user) {
-        return String.format("id: %d, Name: %s", user.getId(), user.getName());
     }
 
     /**
-     * Method creates nice String representation of the User:
-     *
-     * @param user user to create representation
-     * @return with long user info representation
-     * "
+     * Method to initialize fileChooser
      */
-    private String longUserInfo(User user) {
-        int lvlCount = 0;
-        String userToString = user.toString();
-        String filtered = userToString.substring(0, userToString.length() - 1)
-                .replaceFirst("User\\{", "")
-                .replaceAll(" ", "");
-        StringBuilder sb = new StringBuilder();
-        for (char c : filtered.toCharArray()) {
-            sb.append(c);
-            if (c == ',') {
-                sb.append("\n").append("\t".repeat(lvlCount));
-            }
-            if (c == '{') {
-                sb.append("\n").append("\t".repeat(++lvlCount));
-            }
-            if (c == '}') {
-                lvlCount--;
-            }
-        }
-        return sb.toString();
+    private void fileChooserInitialization() {
+        mainChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("JSON files", "*.json"),
+                new FileChooser.ExtensionFilter("text files", "*.txt"),
+                new FileChooser.ExtensionFilter("all files", "*.*")
+        );
     }
+
 
     /**
      * Adds selected user to the List
@@ -99,6 +87,9 @@ public class MainController {
         if (selectedUser != null) {
             comboBoxUsers.getItems().remove(selectedUser);
             addedUsersListView.getItems().add(selectedUser);
+            textAreaLogs.appendText("User " + UserDecoratorClass.shortUserInfo(selectedUser) + " saved locally\n");
+        } else {
+            textAreaLogs.appendText("Select user to save\n");
         }
 
     }
@@ -111,7 +102,13 @@ public class MainController {
     @FXML
     public void buttonDelete(ActionEvent actionEvent) {
         User selectedUser = addedUsersListView.getSelectionModel().getSelectedItem();
-        addedUsersListView.getItems().remove(selectedUser);
+        if (selectedUser != null) {
+            addedUsersListView.getItems().remove(selectedUser);
+            textAreaLogs.appendText("User " + UserDecoratorClass.shortUserInfo(selectedUser) + " deleted\n");
+        } else {
+            textAreaLogs.appendText("Select user to delete\n");
+        }
+
     }
 
     /**
@@ -125,16 +122,28 @@ public class MainController {
         if (selectedUser != null) {
             Alert info = new Alert(Alert.AlertType.INFORMATION);
             info.setTitle("Info");
-            info.setHeaderText("Info about selected user: " + shortUserInfo(selectedUser));
-            info.setContentText(longUserInfo(selectedUser));
+            info.setHeaderText("Info about selected user: " + UserDecoratorClass.shortUserInfo(selectedUser));
+            info.setContentText(UserDecoratorClass.longUserInfo(selectedUser));
             info.show();
         }
     }
 
+    /**
+     * Neth
+     *
+     * @param actionEvent
+     */
     public void menuButtonOpen(ActionEvent actionEvent) {
+        mainChooser.setTitle("Opening file");
+        chosenSaveFile = mainChooser.showOpenDialog(null);
+
+        mainChooser.setInitialDirectory(chosenSaveFile.getParentFile());
     }
 
     public void menuButtonSave(ActionEvent actionEvent) {
+        if (chosenSaveFile != null) {
+            mainChooser.showSaveDialog(null);
+        }
     }
 
     public void menuButtonSaveAs(ActionEvent actionEvent) {
