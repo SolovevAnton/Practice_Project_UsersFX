@@ -24,9 +24,9 @@ public class MainController {
     @FXML
     public ListView<User> addedUsersListView = new ListView<>();
     public TextArea textAreaLogs;
-    private UserRepository savedUsers = new UserRepository();
     private FileChooser mainChooser = new FileChooser();
     private File chosenSaveFile;
+    private UserRepository savingRepo = new UserRepository();
 
     private final Callback<ListView<User>, ListCell<User>> userToOnlyNamesAppearance = lv -> new ListCell<>() {
         @Override
@@ -129,15 +129,20 @@ public class MainController {
     }
 
     /**
-     * Neth
+     * menu button to open and read users form JSON files
      *
      * @param actionEvent
      */
-    public void menuButtonOpen(ActionEvent actionEvent) {
+    public void menuButtonOpen(ActionEvent actionEvent) throws IOException {
         mainChooser.setTitle("Opening file");
         chosenSaveFile = mainChooser.showOpenDialog(null);
+        if (chosenSaveFile != null) {
+            mainChooser.setInitialDirectory(chosenSaveFile.getParentFile());
 
-        mainChooser.setInitialDirectory(chosenSaveFile.getParentFile());
+            UserRepository repo = new UserRepository(chosenSaveFile);
+            comboBoxUsers.getItems().setAll(repo.getUsers());
+            textAreaLogs.appendText(comboBoxUsers.getItems().size() + " Users loaded from: " + chosenSaveFile + "\n");
+        }
     }
 
     public void menuButtonSave(ActionEvent actionEvent) {
@@ -146,6 +151,18 @@ public class MainController {
         }
     }
 
-    public void menuButtonSaveAs(ActionEvent actionEvent) {
+    /**
+     * menu button to save as
+     * @param actionEvent
+     * @throws IOException
+     */
+
+    public void menuButtonSaveAs(ActionEvent actionEvent) throws IOException {
+        chosenSaveFile = mainChooser.showSaveDialog(null);
+        if (chosenSaveFile != null) {
+            addedUsersListView.getItems().forEach(savingRepo::addUser);
+            savingRepo.save(chosenSaveFile);
+            textAreaLogs.appendText(addedUsersListView.getItems().size() + " Users saved to: " + chosenSaveFile + "\n");
+        }
     }
 }
