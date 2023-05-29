@@ -14,6 +14,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * Controller of the main scene
+ */
+
 public class MainController {
     @FXML
     public ComboBox<User> comboBoxUsers = new ComboBox<>();
