@@ -6,6 +6,7 @@ import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -23,16 +24,17 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-      launch();
+        launch();
     }
 
     /**
      * Method to set up additional stage
-     * @param name of the stage .fxml file
+     *
+     * @param name  of the stage .fxml file
      * @param title of the stage
-     * @param data to pass to the stage, or null if nothing
-     * @return created stage
+     * @param data  to pass to the stage, or null if nothing
      * @param <T>
+     * @return created stage
      * @throws IOException
      */
     public static <T> Stage getStage(String name, String title, T data) throws IOException {
@@ -53,9 +55,10 @@ public class App extends Application {
 
     /**
      * Method to open stage without freezing the main one
-     * @param name of the stage .fxml file
+     *
+     * @param name  of the stage .fxml file
      * @param title of the stage
-     * @param data to pass to the stage, or null if nothing
+     * @param data  to pass to the stage, or null if nothing
      * @return created stage
      * @throws IOException
      */
@@ -67,9 +70,10 @@ public class App extends Application {
 
     /**
      * Method to open stage freezing the main one
-     * @param name of the stage .fxml file
+     *
+     * @param name  of the stage .fxml file
      * @param title of the stage
-     * @param data to pass to the stage, or null if nothing
+     * @param data  to pass to the stage, or null if nothing
      * @return created stage
      * @throws IOException
      */
@@ -82,12 +86,28 @@ public class App extends Application {
 
     /**
      * Method to close window
+     *
      * @param event what triggers window closing
      */
-    public static void closeWindow(Event event){
+    public static void closeWindow(Event event) {
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
+    }
+
+    /**
+     * Creates and shows alert without header
+     *
+     * @param title     title of the alert
+     * @param content   content of the alert
+     * @param alertType type
+     */
+    public static void showAlertWithoutHeaderText(String title, String content, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
 }

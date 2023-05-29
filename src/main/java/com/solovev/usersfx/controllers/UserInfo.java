@@ -23,7 +23,6 @@ public class UserInfo implements ControllerData<User> {
     public TextField textFieldPhone;
     @FXML
     public TextField textFieldWebsite;
-    private User user;
 
     @Override
     public void initData(User value) { //TODO why it is needed, why not initialize?
@@ -34,7 +33,6 @@ public class UserInfo implements ControllerData<User> {
         textFieldEmail.setText(value.getEmail());
         textFieldPhone.setText(value.getPhone());
         textFieldWebsite.setText(value.getWebsite());
-        this.user = value;
     }
 
     /**
@@ -45,32 +43,5 @@ public class UserInfo implements ControllerData<User> {
     @FXML
     public void buttonClose(ActionEvent actionEvent) {
         App.closeWindow(actionEvent);
-    }
-
-    /**
-     * Modifies given user based on the fields' values
-     *
-     * @param actionEvent
-     */
-    @FXML
-    public void buttonSave(ActionEvent actionEvent) {
-        User updatedUser = new User(
-                user.getId(),
-                textFieldName.getText(),
-                textFieldUsername.getText(),
-                textFieldEmail.getText(),
-                user.getAddress(),
-                textFieldPhone.getText(),
-                textFieldWebsite.getText(),
-                user.getCompany()
-        );
-        if (!user.equals(updatedUser)) {
-            user = updatedUser;
-        }
-        buttonClose(actionEvent);
-    }
-
-    public User getUser() {
-        return user;
     }
 }

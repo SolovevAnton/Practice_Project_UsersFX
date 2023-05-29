@@ -9,7 +9,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.File;
@@ -123,9 +122,10 @@ public class MainController {
     public void buttonShowInfo(ActionEvent actionEvent) throws IOException {
         User selectedUser = addedUsersListView.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
-            User updatedUser = App.openWindowAndWait("userInfo.fxml","User Info",selectedUser).getUserData();
-
-            if(Up)
+            App.openWindowAndWait("userInfo.fxml", "User Info", selectedUser);
+            App.showAlertWithoutHeaderText("Info",
+                    "User: " + UserDecoratorClass.shortUserInfo(selectedUser) + " was shown",
+                    Alert.AlertType.INFORMATION);
         }
     }
 
@@ -148,6 +148,7 @@ public class MainController {
 
     /**
      * Adds selected users to local file
+     *
      * @param actionEvent
      * @throws IOException
      */
@@ -165,6 +166,7 @@ public class MainController {
 
     /**
      * Menu button to save as
+     *
      * @param actionEvent
      * @throws IOException
      */
