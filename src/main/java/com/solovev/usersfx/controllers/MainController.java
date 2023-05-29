@@ -13,8 +13,6 @@ import javafx.util.Callback;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.function.Function;
 
 public class MainController {
     @FXML
@@ -24,9 +22,8 @@ public class MainController {
     @FXML
     public ListView<User> addedUsersListView = new ListView<>();
     public TextArea textAreaLogs;
-    private FileChooser mainChooser = new FileChooser();
+    private final FileChooser mainChooser = new FileChooser();
     private File chosenSaveFile;
-    private UserRepository savingRepo = new UserRepository();
 
     private final Callback<ListView<User>, ListCell<User>> userToOnlyNamesAppearance = lv -> new ListCell<>() {
         @Override
@@ -135,19 +132,30 @@ public class MainController {
      */
     public void menuButtonOpen(ActionEvent actionEvent) throws IOException {
         mainChooser.setTitle("Opening file");
-        chosenSaveFile = mainChooser.showOpenDialog(null);
-        if (chosenSaveFile != null) {
-            mainChooser.setInitialDirectory(chosenSaveFile.getParentFile());
+        File fileToOpen = mainChooser.showOpenDialog(null);
+        if (fileToOpen != null) {
+            mainChooser.setInitialDirectory(fileToOpen.getParentFile());
 
-            UserRepository repo = new UserRepository(chosenSaveFile);
+            UserRepository repo = new UserRepository(fileToOpen);
             comboBoxUsers.getItems().setAll(repo.getUsers());
-            textAreaLogs.appendText(comboBoxUsers.getItems().size() + " Users loaded from: " + chosenSaveFile + "\n");
+            textAreaLogs.appendText(comboBoxUsers.getItems().size() + " Users loaded from: " + fileToOpen + "\n");
         }
     }
 
-    public void menuButtonSave(ActionEvent actionEvent) {
+    /**
+     * Adds selected users to local file
+     * @param actionEvent
+     * @throws IOException
+     */
+
+    public void menuButtonSave(ActionEvent actionEvent) throws IOException {
         if (chosenSaveFile != null) {
-            mainChooser.showSaveDialog(null);
+            UserRepository savingRepo = new UserRepository();
+            addedUsersListView.getItems().forEach(savingRepo::addUser);
+            savingRepo.save(chosenSaveFile);
+            textAreaLogs.appendText(addedUsersListView.getItems().size() + " Users saved to: " + chosenSaveFile + "\n");
+        } else {
+            menuButtonSaveAs(null);
         }
     }
 
@@ -158,11 +166,11 @@ public class MainController {
      */
 
     public void menuButtonSaveAs(ActionEvent actionEvent) throws IOException {
-        chosenSaveFile = mainChooser.showSaveDialog(null);
-        if (chosenSaveFile != null) {
-            addedUsersListView.getItems().forEach(savingRepo::addUser);
-            savingRepo.save(chosenSaveFile);
-            textAreaLogs.appendText(addedUsersListView.getItems().size() + " Users saved to: " + chosenSaveFile + "\n");
+        File newFileToSave = mainChooser.showSaveDialog(null);
+        if (newFileToSave != null) {
+            chosenSaveFile = newFileToSave;
+            mainChooser.setInitialDirectory(chosenSaveFile.getParentFile());
+            menuButtonSave(null);
         }
     }
 }

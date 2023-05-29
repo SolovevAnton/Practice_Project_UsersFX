@@ -15,12 +15,12 @@ import java.util.List;
  */
 public class UserRepository {
     private List<User> users = new ArrayList<>();
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     public UserRepository() {
     }
     public UserRepository(File file) throws IOException {
-        users = mapper.readValue(file, new TypeReference<List<User>>() {
+        users = mapper.readValue(file, new TypeReference<>() {
         });
     }
 
@@ -37,7 +37,12 @@ public class UserRepository {
     public ArrayList<User> getUsers() {
         return new ArrayList<>(users);
     }
-    //ToDo finish
+
+    /**
+     * Method saves users from repository to the file
+     * @param file to store users in JSON format
+     * @throws IOException
+     */
     public void save(File file) throws IOException {
         mapper.writeValue(file,users);
     }
