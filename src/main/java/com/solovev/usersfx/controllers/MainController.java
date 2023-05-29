@@ -1,5 +1,6 @@
 package com.solovev.usersfx.controllers;
 
+import com.solovev.usersfx.App;
 import com.solovev.usersfx.model.User;
 import com.solovev.usersfx.repository.UserRepository;
 import com.solovev.usersfx.util.UserDecoratorClass;
@@ -8,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.File;
@@ -118,14 +120,12 @@ public class MainController {
      * @param actionEvent button info gets clicked
      */
     @FXML
-    public void buttonShowInfo(ActionEvent actionEvent) {
+    public void buttonShowInfo(ActionEvent actionEvent) throws IOException {
         User selectedUser = addedUsersListView.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
-            Alert info = new Alert(Alert.AlertType.INFORMATION);
-            info.setTitle("Info");
-            info.setHeaderText("Info about selected user: " + UserDecoratorClass.shortUserInfo(selectedUser));
-            info.setContentText(UserDecoratorClass.longUserInfo(selectedUser));
-            info.show();
+            User updatedUser = App.openWindowAndWait("userInfo.fxml","User Info",selectedUser).getUserData();
+
+            if(Up)
         }
     }
 
@@ -164,7 +164,7 @@ public class MainController {
     }
 
     /**
-     * menu button to save as
+     * Menu button to save as
      * @param actionEvent
      * @throws IOException
      */

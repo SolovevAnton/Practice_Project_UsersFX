@@ -2,8 +2,11 @@ package com.solovev.usersfx;
 
 import com.solovev.usersfx.controllers.ControllerData;
 import javafx.application.Application;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -36,7 +39,8 @@ public class App extends Application {
         FXMLLoader loader = new FXMLLoader(App.class.getResource(name));
 
         Stage stage = new Stage(StageStyle.DECORATED);
-        stage.setScene(  new Scene(loader.load())  );
+
+        stage.setScene(new Scene(loader.load()));
 
         stage.setTitle(title);
 
@@ -46,4 +50,44 @@ public class App extends Application {
         }
         return stage;
     }
+
+    /**
+     * Method to open stage without freezing the main one
+     * @param name of the stage .fxml file
+     * @param title of the stage
+     * @param data to pass to the stage, or null if nothing
+     * @return created stage
+     * @throws IOException
+     */
+    public static <T> Stage openWindow(String name, String title, T data) throws IOException {
+        Stage stage = getStage(name, title, data);
+        stage.show();
+        return stage;
+    }
+
+    /**
+     * Method to open stage freezing the main one
+     * @param name of the stage .fxml file
+     * @param title of the stage
+     * @param data to pass to the stage, or null if nothing
+     * @return created stage
+     * @throws IOException
+     */
+    public static <T> Stage openWindowAndWait(String name, String title, T data) throws IOException {
+        Stage stage = getStage(name, title, data);
+        stage.initModality(Modality.APPLICATION_MODAL); //TODO without this show and wait doesn't wait
+        stage.showAndWait();
+        return stage;
+    }
+
+    /**
+     * Method to close window
+     * @param event what triggers window closing
+     */
+    public static void closeWindow(Event event){
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
+    }
+
 }
