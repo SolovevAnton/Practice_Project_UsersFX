@@ -79,7 +79,7 @@ public class App extends Application {
      */
     public static <T> Stage openWindowAndWait(String name, String title, T data) throws IOException {
         Stage stage = getStage(name, title, data);
-        stage.initModality(Modality.APPLICATION_MODAL); //TODO without this show and wait doesn't wait
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
         return stage;
     }
