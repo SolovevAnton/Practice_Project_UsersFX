@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="267.0" prefWidth="299.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.solovev.usersfx.controllers.UserInfo">
+<AnchorPane prefHeight="267.0" prefWidth="299.0" stylesheets="@bootstrap3.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.solovev.usersfx.controllers.UserInfo">
    <children>
       <Label layoutX="14.0" layoutY="27.0" text="User ID" />
       <TextField fx:id="textFieldID" editable="false" layoutX="78.0" layoutY="23.0" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: #DADADA;" />
@@ -17,6 +17,6 @@
       <TextField fx:id="textFieldPhone" layoutX="78.0" layoutY="186.0" prefHeight="25.0" prefWidth="200.0" />
       <Label layoutX="16.0" layoutY="156.0" text="Website" />
       <TextField fx:id="textFieldWebsite" layoutX="78.0" layoutY="152.0" prefHeight="25.0" prefWidth="200.0" />
-      <Button layoutX="231.0" layoutY="228.0" mnemonicParsing="false" onAction="#buttonClose" prefHeight="25.0" prefWidth="54.0" text="Close" />
+      <Button layoutX="231.0" layoutY="228.0" mnemonicParsing="false" onAction="#buttonClose" prefHeight="25.0" prefWidth="54.0" styleClass="primary" text="Close" />
    </children>
 </AnchorPane>
